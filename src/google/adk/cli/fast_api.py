@@ -25,6 +25,7 @@ import sys
 import traceback
 import typing
 from typing import Any
+from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -137,6 +138,7 @@ def get_fast_api_app(
     *,
     agent_dir: str,
     session_db_url: str = "",
+    session_db_args: Dict = None,
     allow_origins: Optional[list[str]] = None,
     web: bool,
     trace_to_cloud: bool = False,
@@ -218,7 +220,7 @@ def get_fast_api_app(
           os.environ["GOOGLE_CLOUD_LOCATION"],
       )
     else:
-      session_service = DatabaseSessionService(db_url=session_db_url)
+      session_service = DatabaseSessionService(db_url=session_db_url, **session_db_args)
   else:
     session_service = InMemorySessionService()
 
