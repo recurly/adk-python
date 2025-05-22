@@ -436,7 +436,7 @@ class LlmAgent(BaseAgent):
     """Saves the model output to state if needed."""
     if (
         self.output_key
-        and event.is_final_response()
+        # and event.is_final_response()
         and event.content
         and event.content.parts
     ):
