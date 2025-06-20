@@ -23,6 +23,7 @@ import time
 import traceback
 import typing
 from typing import Any
+from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -196,6 +197,7 @@ def get_fast_api_app(
     *,
     agents_dir: str,
     session_service_uri: Optional[str] = None,
+    session_service_kwargs: Optional[Dict] = None,
     artifact_service_uri: Optional[str] = None,
     memory_service_uri: Optional[str] = None,
     allow_origins: Optional[list[str]] = None,
@@ -290,7 +292,7 @@ def get_fast_api_app(
           agent_engine_id=agent_engine_id,
       )
     else:
-      session_service = DatabaseSessionService(db_url=session_service_uri)
+      session_service = DatabaseSessionService(db_url=session_service_uri, **session_service_kwargs)
   else:
     session_service = InMemorySessionService()
 
