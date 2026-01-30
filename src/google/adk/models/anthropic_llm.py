@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import base64
 from functools import cached_property
+import json
 import logging
 import os
 from typing import Any
@@ -120,6 +121,13 @@ def part_to_message_block(
       # ToolResultBlockParam content doesn't support list of dict. Converting
       # to str to prevent anthropic.BadRequestError from being thrown.
       content = str(response_data["result"])
+    # Handle any other response format (custom tool responses)
+    else:
+      # Serialize the entire response as JSON string for custom formats
+      try:
+        content = json.dumps(response_data, indent=2)
+      except (TypeError, ValueError):
+        content = str(response_data)
 
     return anthropic_types.ToolResultBlockParam(
         tool_use_id=part.function_response.id or "",
